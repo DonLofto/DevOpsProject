@@ -6,7 +6,7 @@ on:
       - testBranch  # This should be the branch where changes are made
 
 env:
-  SOURCE_BRANCH: testBranch  # Source branch for the pull request
+  SOURCE_BRANCH: testBranch  # Source branch for the pull
   DESTINATION_BRANCH: main  # Target branch in the main repository
   DESTINATION_REPO_OWNER: DonLofto  # Owner of the main repository
   DESTINATION_REPO_NAME: DevOpsProject  # Name of the main repository
