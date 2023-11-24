@@ -15,7 +15,7 @@ jobs:
       - name: Create Pull Request
         uses: repo-sync/pull-request@v2
         with:
-          source_branch: "feature-branch"  # Replace with your branch name
+          source_branch: "feature-branch"  # Replace with your branch name change
           destination_branch: "main"  # Replace with your target branch name
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           pr_title: "Automated Pull Request"
