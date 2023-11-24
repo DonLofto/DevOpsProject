@@ -17,7 +17,7 @@ jobs:
         with:
           source_branch: "feature-branch"  # Replace with your branch name
           destination_branch: "main"  # Replace with your target branch name
-          repo_token: ${{ secrets.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 }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
           pr_title: "Automated Pull Request"
           pr_body: "This is an automated pull request to merge changes from feature-branch to main."
           destination_repo_owner: "DonLofto"  # Replace with the owner of the main repository
