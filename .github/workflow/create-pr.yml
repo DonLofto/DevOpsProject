@@ -3,13 +3,15 @@ name: Create Pull Request Workflow
 on:
   push:
     branches:
-      - testBranch  # This should be the branch where changes are made
+      - testBranch  # Replace with your branch name
 
 env:
-  SOURCE_BRANCH: testBranch  # Source branch for the pull request
-  DESTINATION_BRANCH: main  # Target branch in the main repository
-  DESTINATION_REPO_OWNER: DonLofto  # Owner of the main repository
-  DESTINATION_REPO_NAME: DevOpsProject  # Name of the main repository
+  REPO_OWNER: DonLofto
+  REPO_NAME: DevOpsProject
+  SOURCE_BRANCH: testBranch
+  DESTINATION_BRANCH: main
+  PR_TITLE: "Automated Pull Request"
+  PR_BODY: "This is an automated pull request to merge changes from feature-branch to DevOpsProject."
 
 jobs:
   create-pull-request:
@@ -24,7 +26,7 @@ jobs:
           source_branch: ${{ env.SOURCE_BRANCH }}
           destination_branch: ${{ env.DESTINATION_BRANCH }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          pr_title: "Automated Pull Request"
-          pr_body: "This is an automated pull request to merge changes from ${{ env.SOURCE_BRANCH }} to ${{ env.DESTINATION_BRANCH }}."
-          destination_repo_owner: ${{ env.DESTINATION_REPO_OWNER }}
-          destination_repo_name: ${{ env.DESTINATION_REPO_NAME }}
+          pr_title: ${{ env.PR_TITLE }}
+          pr_body: ${{ env.PR_BODY }}
+          destination_repo_owner: ${{ env.REPO_OWNER }}
+          destination_repo_name: ${{ env.REPO_NAME }}
