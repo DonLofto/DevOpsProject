@@ -24,6 +24,7 @@ pipeline {
             steps {
                 dir("${WORKSPACE_DIR}") {
                     script {
+                        input message: 'Deploy to production?', ok: 'Deploy'
                         sh 'docker-compose down -v --remove-orphans'
                         sh 'docker-compose up -d'
                     }
