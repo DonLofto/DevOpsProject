@@ -36,6 +36,7 @@ pipeline {
                 dir("${WORKSPACE_DIR}") {
                     script {
                         // The input step pauses pipeline execution and allows the user to interact and control the flow of the build.
+                        sh 'docker stop $(docker ps -aq) && docker rm $(docker ps -aq)'
                         input message: 'Deploy to production?', ok: 'Deploy'
                         sh 'docker-compose down -v --remove-orphans'
                         sh 'docker-compose up -d'
