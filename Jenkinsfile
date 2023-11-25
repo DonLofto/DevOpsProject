@@ -18,7 +18,6 @@ pipeline {
         // This stage prepares the workspace for the build.
         stage('Prepare Workspace') {
             steps {
-                sh 'docker stop $(docker ps -aq) && docker rm $(docker ps -aq)'
                 // The sh step executes a shell command.
                 sh 'mkdir -p ${WORKSPACE_DIR}'
             }
