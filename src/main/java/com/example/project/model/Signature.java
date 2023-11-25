@@ -14,6 +14,14 @@ public class Signature {
     private String name;
     private String email;
 
+    /**
+     * The petition associated with this signature.
+     *
+     * The @ManyToOne annotation indicates that each signature can be associated with one petition.
+     * The @JoinColumn annotation specifies the column in the database that holds the foreign key.
+     * The name attribute of @JoinColumn specifies the name of the foreign key column.
+     * The nullable attribute of @JoinColumn is set to false, indicating that every signature must be associated with a petition.
+     */
     @ManyToOne
     @JoinColumn(name="petition_id", nullable=false)
     private Petition petition;
@@ -106,11 +114,23 @@ public class Signature {
         this.petition = petition;
     }
 
+    /**
+     * Returns a string representation of the Signature object.
+     * The returned string includes the id, name, and email of the signature.
+     *
+     * @return A string representation of the Signature object.
+     */
     @Override
     public String toString() {
         return "Signature{" + "id=" + id + ", name='" + name + '\'' + ", email='" + email + '\'' + '}';
     }
 
+    /**
+     * Associates the given petition with this signature.
+     * This method is used to establish a relationship between a signature and a petition.
+     *
+     * @param petition The petition to be associated with this signature.
+     */
     public void addPetition(Petition petition) {
         this.petition = petition;
     }

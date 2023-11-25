@@ -15,6 +15,14 @@ public class PetitionService {
 
     private final PetitionRepository petitionRepository;
 
+    /**
+     * Constructor for the PetitionService class.
+     *
+     * This constructor initializes the PetitionService with a given PetitionRepository.
+     * The PetitionRepository is used to perform database operations related to petitions.
+     *
+     * @param petitionRepository The PetitionRepository to be used by this PetitionService.
+     */
     public PetitionService(PetitionRepository petitionRepository) {
         this.petitionRepository = petitionRepository;
     }

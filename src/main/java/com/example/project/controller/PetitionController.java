@@ -17,6 +17,13 @@ import com.example.project.service.PetitionService;
  */
 @Controller
 public class PetitionController {
+    /**
+     * The PetitionService instance used by this controller.
+     *
+     * This instance is used to interact with the data layer of the application,
+     * performing operations related to Petitions such as saving a new Petition,
+     * retrieving all Petitions, retrieving a Petition by its ID, and searching for Petitions.
+     */
     private final PetitionService petitionService;
 
     /**

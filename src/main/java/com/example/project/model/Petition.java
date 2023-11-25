@@ -26,6 +26,14 @@ public class Petition {
     @Column(length = 1500)
     private String description;
 
+/**
+ * The list of signatures associated with this petition.
+ *
+ * The @OneToMany annotation indicates that each petition can have multiple signatures.
+ * The cascade attribute of @OneToMany is set to CascadeType.ALL, meaning that any changes to the petition will cascade to the signatures.
+ * The orphanRemoval attribute of @OneToMany is set to true, meaning that when a signature is removed from the list, it will be removed from the database as well.
+ * The mappedBy attribute of @OneToMany indicates that the 'petition' field in the Signature entity is the owning side of the relationship.
+ */
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "petition")
     private List<Signature> signatures = new ArrayList<>();
 
@@ -117,6 +125,14 @@ public class Petition {
         return signatures;
     }
 
+    /**
+     * Returns a string representation of the Petition object.
+     *
+     * The returned string includes the id, title, description, and signatures of the petition.
+     * This method is typically used for debugging and logging purposes, not for displaying user-facing content.
+     *
+     * @return A string representation of the Petition object.
+     */
     @Override
     public String toString() {
         return "Petition{" + "id=" + id + ", title='" + title + '\'' + ", description='" + description
