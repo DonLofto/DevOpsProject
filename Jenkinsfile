@@ -3,13 +3,7 @@ pipeline {
 
     environment {
         WORKSPACE_DIR = "build_workspace_${env.BUILD_ID}"
-        DOCKER_IMAGE_NAME = 'tomcat' // Replace with your Docker image name
-        DOCKER_IMAGE_TAG = "latest"
         EMAIL_RECIPIENT = 'manunited2006@gmail.com'
-        // Optional: If you have a registry other than Docker Hub, specify it here
-        DOCKER_REGISTRY = '' // Leave this empty for Docker Hub
-        // Optional: The ID for your Docker registry credentials stored in Jenkins
-        REGISTRY_CREDENTIALS_ID = 'your-registry-credentials-id'
     }
 
     stages {
@@ -31,6 +25,7 @@ pipeline {
                 dir("${WORKSPACE_DIR}") {
                     script {
                         // Build the Docker image
+                        sh 'docker pull tomcat:10.1.15'
                          sh "docker build -t -p 8081:8080 ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ."
 
 
