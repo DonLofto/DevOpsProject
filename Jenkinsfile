@@ -48,12 +48,15 @@ pipeline {
                 dir("${WORKSPACE_DIR}") {
                     script {
                         input message: 'Deploy to production?', ok: 'Deploy'
+                        echo "Bringing down any existing Docker containers"
                         sh 'docker-compose down -v --remove-orphans'
+                        echo "Starting Docker containers"
                         sh 'docker-compose up -d'
                     }
                 }
             }
         }
+
     }
 
     post {
