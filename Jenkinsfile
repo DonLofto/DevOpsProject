@@ -31,7 +31,7 @@ pipeline {
                 dir("${WORKSPACE_DIR}") {
                     script {
                         // Build the Docker image
-                         sh "docker build -d -p 8081:8080 ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ."
+                         sh "docker build -t -p 8081:8080 ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ."
 
 
 
