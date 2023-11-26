@@ -40,7 +40,7 @@ public class PetitionController {
      *
      * @return the name of the index template.
      */
-    @GetMapping("/")
+    @GetMapping("/app")
     public String showIndexPage() {
         return "index";
     }
@@ -56,7 +56,7 @@ public class PetitionController {
      * @return The name of the index template. Redirects back to the index page after creation,
      *         displaying either error messages or a success message.
      */
-    @PostMapping("/create")
+    @PostMapping("/app/create")
     public String createPetition(@RequestParam String title, @RequestParam String description,
                                  Model model) {
         if (title == null || title.trim().isEmpty()) {
@@ -80,7 +80,7 @@ public class PetitionController {
      * @param model The Spring MVC Model used to pass attributes to the view.
      * @return The name of the view template.
      */
-    @GetMapping("/viewAll")
+    @GetMapping("/app/viewAll")
     public String viewAllPetitions(Model model) {
         List<Petition> allPetitions = petitionService.getAllPetitions();
         model.addAttribute("petitions", allPetitions);
@@ -98,7 +98,7 @@ public class PetitionController {
     public String viewPetitionDetail(@PathVariable Long id, Model model) {
         Optional<Petition> petitionOptional = petitionService.getPetitionById(id);
         petitionOptional.ifPresent(petition -> model.addAttribute("petition", petition));
-        return petitionOptional.isPresent() ? "petitionDetail" : "redirect:/viewAll";
+        return petitionOptional.isPresent() ? "petitionDetail" : "redirect:/app/viewAll";
     }
 
     /**
@@ -120,9 +120,9 @@ public class PetitionController {
             signature.addPetition(petition);
             petition.addSignature(signature);
             petitionService.savePetition(petition);
-            return "redirect:/petition/" + id;
+            return "redirect:/app/petition/" + id;
         } else {
-            return "redirect:/viewAll";
+            return "redirect:/app/viewAll";
         }
     }
 
@@ -131,7 +131,7 @@ public class PetitionController {
      *
      * @return The name of the search page template.
      */
-    @GetMapping("/search")
+    @GetMapping("/app/search")
     public String showSearchPage() {
         return "search";
     }
@@ -145,7 +145,7 @@ public class PetitionController {
      * @param model The Spring MVC Model used to pass attributes to the view.
      * @return The name of the search result template.
      */
-    @PostMapping("/searchResult")
+    @PostMapping("/app/searchResult")
     public String showSearchResult(@RequestParam String query,
                                    @RequestParam(required = false) Boolean searchTitle,
                                    @RequestParam(required = false) Boolean searchDescription, Model model) {

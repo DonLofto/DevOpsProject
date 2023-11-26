@@ -16,7 +16,7 @@ pipeline {
         MYSQL_PASSWORD = 'root'
 
         // Application environment variables
-        SPRING_DATASOURCE_URL = "jdbc:mysql://${MYSQL_CONTAINER_NAME}:3306/${MYSQL_DATABASE}?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true"
+        SPRING_DATASOURCE_URL = 'jdbc:mysql://${MYSQL_CONTAINER_NAME}:3306/${MYSQL_DATABASE}?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true'
         SPRING_DATASOURCE_USERNAME = '${MYSQL_USER}'
         SPRING_DATASOURCE_PASSWORD = '${MYSQL_PASSWORD}'
 
