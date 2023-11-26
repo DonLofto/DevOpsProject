@@ -100,6 +100,9 @@ pipeline {
                 to: "${EMAIL_RECIPIENT}"
             )
             archiveArtifacts allowEmptyArchive: true, artifacts: '**/*.war'
+            script {
+                // Clean up unused Docker images
+                sh 'docker image prune -f || true'
             }
         }
         always {
