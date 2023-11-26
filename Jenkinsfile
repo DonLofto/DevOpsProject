@@ -52,8 +52,6 @@ pipeline {
                 dir("${WORKSPACE_DIR}") {
                     script {
                         input message: 'Deploy to production?', ok: 'Deploy'
-                        sh 'docker stop $(docker ps -aq) && docker rm $(docker ps -aq)'
-                        sh 'docker rmi -f $(docker images -a -q)'
                     }
                 }
             }
@@ -102,9 +100,6 @@ pipeline {
                 to: "${EMAIL_RECIPIENT}"
             )
             archiveArtifacts allowEmptyArchive: true, artifacts: '**/*.war'
-            script {
-                // Clean up unused Docker images
-                sh 'docker image prune -f || true'
             }
         }
         always {
