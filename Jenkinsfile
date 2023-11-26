@@ -4,7 +4,6 @@ pipeline {
     environment {
         // Common environment variables
         WORKSPACE_DIR = "build_workspace_${env.BUILD_ID}"
-        EMAIL_RECIPIENT = 'manunited2006@gmail.com'
         DOCKER_IMAGE_NAME = 'app'
         DOCKER_IMAGE_TAG = 'latest'
 
@@ -57,13 +56,23 @@ pipeline {
             }
         }
 
+        stage('Create Network') {
+            steps {
+                script {
+                    // Create a custom Docker network
+                    sh 'docker network create my-app-network'
+                }
+            }
+        }
+
         stage('Start MySQL') {
             steps {
                 script {
                     // Start MySQL container
                     sh 'docker pull ${MYSQL_IMAGE}'
                     sh """
-                    docker run --name ${MYSQL_CONTAINER_NAME} -d \
+                    docker run --name ${MYSQL_CONTAINER_NAME} -d \ --network my-app-network \
+                    --restart always \
                     -e MYSQL_DATABASE=${MYSQL_DATABASE} \
                     -e MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD} \
                     -e MYSQL_USER=${MYSQL_USER} \
@@ -81,7 +90,8 @@ pipeline {
                 dir("${WORKSPACE_DIR}") {
                     script {
                         sh "docker build -t ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ."
-                        sh "docker run -d --name ${docker_image_name} -p 9090:8080 ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
+                        sh "docker run -d --name ${DOCKER_IMAGE_NAME} \ --network my-app-network \
+                        -p 9090:8080 ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
                     }
                 }
             }
