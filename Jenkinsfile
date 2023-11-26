@@ -2,41 +2,53 @@ pipeline {
     agent any
 
     environment {
+        // Common environment variables
         WORKSPACE_DIR = "build_workspace_${env.BUILD_ID}"
         EMAIL_RECIPIENT = 'manunited2006@gmail.com'
-        DOCKER_IMAGE_NAME = 'app' // Replace with your actual app name
+        DOCKER_IMAGE_NAME = 'app' // Replace with your actual app image name
         DOCKER_IMAGE_TAG = 'latest' // Replace with your actual tag if needed
+
+        // MySQL environment variables
+        MYSQL_IMAGE = 'mysql:8.0'
+        MYSQL_CONTAINER_NAME = 'db-app'
+        MYSQL_DATABASE = 'PetitionAppDB'
+        MYSQL_ROOT_PASSWORD = 'secret'
+        MYSQL_USER = 'app'
+        MYSQL_PASSWORD = 'root'
+
+        // Application environment variables
+        SPRING_DATASOURCE_URL = "jdbc:mysql://${MYSQL_CONTAINER_NAME}:3306/${MYSQL_DATABASE}?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true"
+        SPRING_DATASOURCE_USERNAME = '${MYSQL_USER}'
+        SPRING_DATASOURCE_PASSWORD = '${MYSQL_PASSWORD}'
     }
 
-     stages {
-             stage('Prepare Workspace') {
-                 steps {
-                     sh 'mkdir -p ${WORKSPACE_DIR}'
-                 }
-             }
+    stages {
+        stage('Prepare Workspace') {
+            steps {
+                sh 'mkdir -p ${WORKSPACE_DIR}'
+            }
+        }
 
-             stage('Checkout') {
-                 steps {
-                     sh 'git clone https://github.com/DonLofto/DevOpsProject.git ${WORKSPACE_DIR}'
-                 }
-             }
+        stage('Checkout') {
+            steps {
+                sh "git clone https://github.com/DonLofto/DevOpsProject.git ${WORKSPACE_DIR}"
+                // Copy the docker-compose.yml file into the workspace directory
+                sh "cp ${WORKSPACE_DIR}/path/to/docker-compose.yml ${WORKSPACE_DIR}/docker-compose.yml" // Adjust the path to the actual location of your docker-compose.yml
+            }
+        }
 
-             // New stage for building the WAR file
-             stage('Build WAR') {
-                 steps {
-                     dir("${WORKSPACE_DIR}") {
-                         sh 'mvn clean package' // This assumes you have a Maven project
-                     }
-                 }
-             }
-
-
+        stage('Build WAR') {
+            steps {
+                dir("${WORKSPACE_DIR}") {
+                    sh 'mvn clean package' // Assumes you have a Maven project
+                }
+            }
+        }
 
         stage('Build Docker Image') {
             steps {
                 dir("${WORKSPACE_DIR}") {
                     script {
-                        // Build the Docker image
                         sh "docker build -t ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ."
                     }
                 }
@@ -56,23 +68,23 @@ pipeline {
                 }
             }
         }
-
-    }
-
-    post {
-        success {
-            echo 'Deployment successful!'
-            emailext(
-                subject: 'Jenkins Notification - Deployment Successful',
-                body: 'Deployment of your application was successful.',
-                to: "${EMAIL_RECIPIENT}"
-            )
-            script {
-                sh 'docker image prune -f'
+        post {
+            success {
+                echo 'Deployment successful!'
+                emailext(
+                    subject: 'Jenkins Notification - Deployment Successful',
+                    body: 'Deployment of your application was successful.',
+                    to: "${EMAIL_RECIPIENT}"
+                )
+                script {
+                    // Clean up unused Docker images
+                    sh 'docker image prune -f || true'
+                }
             }
-        }
-        always {
-            sh "rm -rf ${WORKSPACE_DIR}"
+            always {
+                // Clean up the workspace without affecting the running application
+                sh "rm -rf ${WORKSPACE_DIR}"
+            }
         }
     }
 }
