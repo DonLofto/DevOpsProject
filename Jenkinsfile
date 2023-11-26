@@ -8,18 +8,29 @@ pipeline {
         DOCKER_IMAGE_TAG = 'latest' // Replace with your actual tag if needed
     }
 
-    stages {
-        stage('Prepare Workspace') {
-            steps {
-                sh 'mkdir -p ${WORKSPACE_DIR}'
-            }
-        }
+     stages {
+             stage('Prepare Workspace') {
+                 steps {
+                     sh 'mkdir -p ${WORKSPACE_DIR}'
+                 }
+             }
 
-        stage('Checkout') {
-            steps {
-                sh 'git clone https://github.com/DonLofto/DevOpsProject.git ${WORKSPACE_DIR}'
-            }
-        }
+             stage('Checkout') {
+                 steps {
+                     sh 'git clone https://github.com/DonLofto/DevOpsProject.git ${WORKSPACE_DIR}'
+                 }
+             }
+
+             // New stage for building the WAR file
+             stage('Build WAR') {
+                 steps {
+                     dir("${WORKSPACE_DIR}") {
+                         sh 'mvn clean package' // This assumes you have a Maven project
+                     }
+                 }
+             }
+
+
 
         stage('Build Docker Image') {
             steps {
