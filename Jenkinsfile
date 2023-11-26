@@ -31,7 +31,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git 'https://github.com/DonLofto/DevOpsProject.git'
+                sh 'git clone https://github.com/DonLofto/DevOpsProject.git'
             }
         }
 
