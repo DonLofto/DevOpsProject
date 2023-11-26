@@ -31,13 +31,10 @@ pipeline {
                 dir("${WORKSPACE_DIR}") {
                     script {
                         // Build the Docker image
-                        sh "docker build -t -p 8081:8080 ${DOCKER_REGISTRY}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ."
-                        // Optional: Push the Docker image to a registry
-                        if (DOCKER_REGISTRY && REGISTRY_CREDENTIALS_ID) {
-                            docker.withRegistry(DOCKER_REGISTRY, REGISTRY_CREDENTIALS_ID) {
-                                sh "docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
-                            }
-                        }
+                         sh "docker build -t ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ."
+
+
+
                     }
                 }
             }
