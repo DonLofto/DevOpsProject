@@ -45,30 +45,28 @@ pipeline {
                 }
             }
         }
+        stage('Approve Deployment') {
+            steps {
+                dir("${WORKSPACE_DIR}") {
+                    script {
+                        input message: 'Deploy to production?', ok: 'Deploy'
+                    }
+                }
+            }
+        }
 
         stage('Build Docker Image') {
             steps {
                 dir("${WORKSPACE_DIR}") {
                     script {
                         sh "docker build -t ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ."
+                        sh "docker run -d --name ${docker_image_name} -p 8081:8080 ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
                     }
                 }
             }
         }
 
-        stage('Run docker compose') {
-            steps {
-                dir("${WORKSPACE_DIR}") {
-                    script {
-                        input message: 'Deploy to production?', ok: 'Deploy'
-                        echo "Bringing down any existing Docker containers"
-                        sh 'docker-compose down -v --remove-orphans'
-                        echo "Starting Docker containers"
-                        sh 'docker-compose up -d'
-                    }
-                }
-            }
-        }
+
     }
 
     post {
