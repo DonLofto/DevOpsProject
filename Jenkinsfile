@@ -91,23 +91,14 @@ pipeline {
 
     }
 
-    post {
-        success {
-            echo 'Deployment successful!'
-            emailext(
-                subject: 'Jenkins Notification - Deployment Successful',
-                body: 'Deployment of your application was successful.',
-                to: "${EMAIL_RECIPIENT}"
-            )
-            archiveArtifacts allowEmptyArchive: true, artifacts: '**/*.war'
-            script {
-                // Clean up unused Docker images
-                sh 'docker image prune -f || true'
-            }
-        }
-        always {
-            // Clean up the workspace without affecting the running application
-            sh "rm -rf ${WORKSPACE_DIR}"
-        }
-    }
+   post {
+       success {
+           echo 'Deployment successful!'
+           archiveArtifacts allowEmptyArchive: true, artifacts: '**/*.war'
+       }
+       always {
+           // Clean up the workspace without affecting the running application
+           sh "rm -rf ${WORKSPACE_DIR}"
+       }
+   }
 }
