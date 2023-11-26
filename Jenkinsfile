@@ -5,8 +5,8 @@ pipeline {
         // Common environment variables
         WORKSPACE_DIR = "build_workspace_${env.BUILD_ID}"
         EMAIL_RECIPIENT = 'manunited2006@gmail.com'
-        DOCKER_IMAGE_NAME = 'app' // Replace with your actual app image name
-        DOCKER_IMAGE_TAG = 'latest' // Replace with your actual tag if needed
+        DOCKER_IMAGE_NAME = 'app'
+        DOCKER_IMAGE_TAG = 'latest'
 
         // MySQL environment variables
         MYSQL_IMAGE = 'mysql:8.0'
@@ -29,16 +29,16 @@ pipeline {
             }
         }
 
-       stage('Checkout') {
-           steps {
-               git 'https://github.com/DonLofto/DevOpsProject.git'
-           }
-       }
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/DonLofto/DevOpsProject.git'
+            }
+        }
 
         stage('Build WAR') {
             steps {
                 dir("${WORKSPACE_DIR}") {
-                    sh 'mvn clean package' // Assumes you have a Maven project
+                    sh 'mvn clean package'
                 }
             }
         }
@@ -66,22 +66,24 @@ pipeline {
                 }
             }
         }
-        post {
-            success {
-                echo 'Deployment successful!'
-                emailext(
-                    subject: 'Jenkins Notification - Deployment Successful',
-                    body: 'Deployment of your application was successful.',
-                    to: "${EMAIL_RECIPIENT}"
-                )
-                script {
-                    // Clean up unused Docker images
-                    sh 'docker image prune -f || true'
-                }
-            }
-            always {
-                // Clean up the workspace without affecting the running application
-                sh "rm -rf ${WORKSPACE_DIR}"
+    }
+
+    post {
+        success {
+            echo 'Deployment successful!'
+            emailext(
+                subject: 'Jenkins Notification - Deployment Successful',
+                body: 'Deployment of your application was successful.',
+                to: "${EMAIL_RECIPIENT}"
+            )
+            script {
+                // Clean up unused Docker images
+                sh 'docker image prune -f || true'
             }
         }
-
+        always {
+            // Clean up the workspace without affecting the running application
+            sh "rm -rf ${WORKSPACE_DIR}"
+        }
+    }
+}
