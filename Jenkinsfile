@@ -60,7 +60,7 @@ pipeline {
             steps {
                 script {
                     // Create a custom Docker network
-                    sh 'docker network create you-app-network'
+                    sh 'docker network create youu-app-network'
                 }
             }
         }
@@ -71,7 +71,7 @@ pipeline {
                     // Start MySQL container
                     sh 'docker pull ${MYSQL_IMAGE}'
                     sh """
-                    docker run --name ${MYSQL_CONTAINER_NAME} -d --network you-app-network \
+                    docker run --name ${MYSQL_CONTAINER_NAME} -d --network youu-app-network \
                     --restart always \
                     -e MYSQL_DATABASE=${MYSQL_DATABASE} \
                     -e MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD} \
@@ -90,7 +90,7 @@ pipeline {
                 dir("${WORKSPACE_DIR}") {
                     script {
                         sh "docker build -t ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ."
-                        sh "docker run -d --name ${DOCKER_IMAGE_NAME} --network you-app-network \
+                        sh "docker run -d --name ${DOCKER_IMAGE_NAME} --network youu-app-network \
                         -p 9090:8080 ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
                     }
                 }
