@@ -63,6 +63,7 @@ pipeline {
             steps {
                 script {
                     // Start MySQL container
+                    sh 'docker pull ${MYSQL_IMAGE}'
                     sh """
                     docker run --name ${MYSQL_CONTAINER_NAME} -d \
                     -e MYSQL_DATABASE=${MYSQL_DATABASE} \
