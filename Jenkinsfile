@@ -60,7 +60,7 @@ pipeline {
             steps {
                 script {
                     // Create a custom Docker network
-                    sh 'docker network create my-app-network'
+                    sh 'docker network create you-app-network'
                 }
             }
         }
