@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         WORKSPACE_DIR = "build_workspace_${env.BUILD_ID}"
-        DOCKER_IMAGE_NAME = 'app' // Replace with your Docker image name
+        DOCKER_IMAGE_NAME = 'tomcat' // Replace with your Docker image name
         DOCKER_IMAGE_TAG = "latest"
         EMAIL_RECIPIENT = 'manunited2006@gmail.com'
         // Optional: If you have a registry other than Docker Hub, specify it here
@@ -31,7 +31,7 @@ pipeline {
                 dir("${WORKSPACE_DIR}") {
                     script {
                         // Build the Docker image
-                         sh "docker build -t ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ."
+                         sh "docker build -d -p 8081:8080 ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ."
 
 
 
