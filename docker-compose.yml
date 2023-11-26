@@ -26,4 +26,4 @@
 #      SPRING_DATASOURCE_USERNAME: app
 #      SPRING_DATASOURCE_PASSWORD: root
 #    volumes:
-#      - .:/app
+#      - .:/appp
