@@ -31,9 +31,12 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                sh 'git clone https://github.com/DonLofto/DevOpsProject.git'
+                dir("${WORKSPACE_DIR}") {
+                    sh 'git clone https://github.com/DonLofto/DevOpsProject.git .'
+                }
             }
         }
+
 
         stage('Build WAR') {
             steps {
