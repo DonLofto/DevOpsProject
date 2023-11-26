@@ -84,5 +84,4 @@ pipeline {
                 sh "rm -rf ${WORKSPACE_DIR}"
             }
         }
-    }
-}
+
