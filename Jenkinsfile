@@ -60,7 +60,7 @@ pipeline {
                 dir("${WORKSPACE_DIR}") {
                     script {
                         sh "docker build -t ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ."
-                        sh "docker run -d --name ${docker_image_name} -p 8081:8080 ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
+                        sh "docker run -d --name ${docker_image_name} -p 9090:8080 ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
                     }
                 }
             }
