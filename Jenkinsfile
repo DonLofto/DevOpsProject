@@ -76,6 +76,7 @@ pipeline {
                 body: 'Deployment of your application was successful.',
                 to: "${EMAIL_RECIPIENT}"
             )
+            archiveArtifacts allowEmptyArchive: true, artifacts: '**/target/*.war'
             script {
                 // Clean up unused Docker images
                 sh 'docker image prune -f || true'
