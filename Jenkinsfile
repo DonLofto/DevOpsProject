@@ -4,6 +4,8 @@ pipeline {
     environment {
         WORKSPACE_DIR = "build_workspace_${env.BUILD_ID}"
         EMAIL_RECIPIENT = 'manunited2006@gmail.com'
+        DOCKER_IMAGE_NAME = 'app' // Replace with your actual app name
+        DOCKER_IMAGE_TAG = 'latest' // Replace with your actual tag if needed
     }
 
     stages {
@@ -19,17 +21,12 @@ pipeline {
             }
         }
 
-        // New stage for building the Docker image
-        stage('Build and Push Docker Image') {
+        stage('Build Docker Image') {
             steps {
                 dir("${WORKSPACE_DIR}") {
                     script {
                         // Build the Docker image
-                        sh 'docker pull tomcat:10.1.15'
-                         sh "docker build -t -p 8081:8080 ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ."
-
-
-
+                        sh "docker build -t ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ."
                     }
                 }
             }
