@@ -61,7 +61,7 @@ pipeline {
                 sh 'docker image prune -f'
             }
         }
-        // The always condition runs regardless of the completion status ofpipeline.
+        // The always condition runs regardless of the completion status of the pipeline.
         always {
             sh "rm -rf ${WORKSPACE_DIR}"
         }
