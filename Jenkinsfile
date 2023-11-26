@@ -29,13 +29,11 @@ pipeline {
             }
         }
 
-        stage('Checkout') {
-            steps {
-                sh "git clone https://github.com/DonLofto/DevOpsProject.git ${WORKSPACE_DIR}"
-                // Copy the docker-compose.yml file into the workspace directory
-                sh "cp ${WORKSPACE_DIR}/path/to/docker-compose.yml ${WORKSPACE_DIR}/docker-compose.yml" // Adjust the path to the actual location of your docker-compose.yml
-            }
-        }
+       stage('Checkout') {
+           steps {
+               git 'https://github.com/DonLofto/DevOpsProject.git'
+           }
+       }
 
         stage('Build WAR') {
             steps {
