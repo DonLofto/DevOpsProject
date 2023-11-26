@@ -20,6 +20,8 @@ pipeline {
         SPRING_DATASOURCE_URL = "jdbc:mysql://${MYSQL_CONTAINER_NAME}:3306/${MYSQL_DATABASE}?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true"
         SPRING_DATASOURCE_USERNAME = '${MYSQL_USER}'
         SPRING_DATASOURCE_PASSWORD = '${MYSQL_PASSWORD}'
+
+
     }
 
     stages {
@@ -57,11 +59,30 @@ pipeline {
             }
         }
 
+        stage('Start MySQL') {
+            steps {
+                script {
+                    // Start MySQL container
+                    sh """
+                    docker run --name ${MYSQL_CONTAINER_NAME} -d \
+                    -e MYSQL_DATABASE=${MYSQL_DATABASE} \
+                    -e MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD} \
+                    -e MYSQL_USER=${MYSQL_USER} \
+                    -e MYSQL_PASSWORD=${MYSQL_PASSWORD} \
+                    -p 3306:3306 \
+                    -v \$(pwd)/db:/docker-entrypoint-initdb.d \
+                    ${MYSQL_IMAGE}
+                    """
+                }
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
                 dir("${WORKSPACE_DIR}") {
                     script {
                         sh "docker build -t ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ."
+                        sh
                         sh "docker run -d --name ${docker_image_name} -p 9090:8080 ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
                     }
                 }
