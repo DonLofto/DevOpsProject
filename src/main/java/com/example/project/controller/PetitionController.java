@@ -78,7 +78,7 @@ public class PetitionController {
      * @param model The Spring MVC Model used to pass attributes to the view.
      * @return The name of the view template.
      */
-    @GetMapping("/viewAll")
+    @GetMapping("/app/viewAll")
     public String viewAllPetitions(Model model) {
         List<Petition> allPetitions = petitionService.getAllPetitions();
         model.addAttribute("petitions", allPetitions);
@@ -92,7 +92,7 @@ public class PetitionController {
      * @param model The Spring MVC Model used to pass attributes to the view.
      * @return The name of the petition detail template.
      */
-    @GetMapping("/petition/{id}")
+    @GetMapping("/app/petition/{id}")
     public String viewPetitionDetail(@PathVariable Long id, Model model) {
         Optional<Petition> petitionOptional = petitionService.getPetitionById(id);
         petitionOptional.ifPresent(petition -> model.addAttribute("petition", petition));
@@ -129,7 +129,7 @@ public class PetitionController {
      *
      * @return The name of the search page template.
      */
-    @GetMapping("/search")
+    @GetMapping("/app/search")
     public String showSearchPage() {
         return "search";
     }
