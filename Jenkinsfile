@@ -62,16 +62,15 @@ pipeline {
             }
         }
 
-        stage('Run docker compose') {
+        stage('Deploy') {
             steps {
-                dir("${WORKSPACE_DIR}") {
-                    // Stop and remove the db-app container if it's already running
+                script {
+                    // Stop the current db-app service if it's running
                     sh 'docker-compose stop db-app'
+                    // Remove the current db-app service container without removing the volume
                     sh 'docker-compose rm -f db-app'
-
-                    // Stop and remove only the application container
-                    sh 'docker-compose stop back'
-                    sh 'docker-compose rm -f back'
+                    // Bring up the new db-app service, which will reuse the existing db-data volume
+                    sh 'docker-compose up -d db-app'
 
                     // Start the db-app and back services
                     sh 'docker-compose up -d'
