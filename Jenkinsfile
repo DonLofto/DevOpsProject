@@ -38,6 +38,8 @@ pipeline {
             }
         }
 
+
+
         stage('Confirm Deployment') {
             steps {
                 script {
@@ -46,16 +48,33 @@ pipeline {
             }
         }
 
+        stage('Check db-data volume') {
+            steps {
+                script {
+                    // Check if the db-data volume exists
+                    def volumeExists = sh(script: "docker volume ls | grep db-data", returnStatus: true) == 0
+                    if (!volumeExists) {
+                        echo "Volume db-data does not exist. It will be created by docker-compose."
+                    } else {
+                        echo "Volume db-data exists. Data will persist."
+                    }
+                }
+            }
+        }
+
         stage('Run docker compose') {
             steps {
                 dir("${WORKSPACE_DIR}") {
+                    // Stop and remove the db-app container if it's already running
+                    sh 'docker-compose stop db-app'
+                    sh 'docker-compose rm -f db-app'
+
                     // Stop and remove only the application container
                     sh 'docker-compose stop back'
                     sh 'docker-compose rm -f back'
 
-                    // Rebuild and start only the application container
-                    sh 'docker-compose build back'
-                    sh 'docker-compose up -d back'
+                    // Start the db-app and back services
+                    sh 'docker-compose up -d'
                 }
             }
         }
