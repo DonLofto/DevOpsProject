@@ -13,9 +13,27 @@ pipeline {
                 sh 'mkdir -p ${WORKSPACE_DIR}'
             }
         }
+        stage('Cleanup') {
+            steps {
+                script {
+                    // Check if the application and database containers are running
+                    // before pruning unused networks.
+                    def appRunning = sh(script: "docker-compose ps | grep back", returnStatus: true) == 0
+                    def dbRunning = sh(script: "docker-compose ps | grep db-app", returnStatus: true) == 0
+
+                    if (appRunning && dbRunning) {
+                        // Prune unused networks with caution
+                        sh 'docker network prune -f'
+                    } else {
+                        echo "Skipping network pruning because services are not running as expected."
+                    }
+                }
+            }
+        }
 
         stage('Checkout') {
             steps {
+                // The dir step allows you to change the current working directory.
                 sh 'git clone https://github.com/DonLofto/DevOpsProject.git ${WORKSPACE_DIR}'
             }
         }
@@ -31,12 +49,16 @@ pipeline {
         stage('Run docker compose') {
             steps {
                 dir("${WORKSPACE_DIR}") {
-                    sh 'docker-compose down -v --remove-orphans'
-                    sh 'docker-compose up -d'
+                    // Stop and remove only the application container
+                    sh 'docker-compose stop back'
+                    sh 'docker-compose rm -f back'
+
+                    // Rebuild and start only the application container
+                    sh 'docker-compose build back'
+                    sh 'docker-compose up -d back'
                 }
             }
         }
-    }
 
     post {
         success {
