@@ -2,7 +2,7 @@ FROM tomcat:latest
 
 WORKDIR /usr/local/tomcat/webapps/
 
-COPY /target/*.war  app.war
+ADD /target/*.war  /usr/local/tomcat/webapps/*.war
 
 EXPOSE 9090
 
