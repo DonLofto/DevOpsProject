@@ -61,8 +61,8 @@ pipeline {
 
                         sh 'docker-compose rm -f back || true'
 
-                        // Start the db-app and back services
-                        sh 'docker-compose up -d'
+                        // Start the db-app and back services with a fixed project name
+                        sh 'docker-compose -p fixed_project_name up -d'
                     }
                 }
             }
