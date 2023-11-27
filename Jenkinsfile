@@ -57,6 +57,11 @@ pipeline {
                         sh 'docker-compose stop db-app || true'
                         // Remove the current db-app service container without removing the volume
                         sh 'docker-compose rm -f db-app || true'
+                        // Find containers using port 9090 and stop them
+                        sh "docker ps --filter 'status=running' --format '{{.Ports}} {{.ID}}' | grep ':9090' | awk '{print $NF}' | xargs -r docker stop || true"
+
+                        // After stopping, you can remove the containers as well
+                        sh "docker ps -a --filter 'status=exited' --format '{{.Ports}} {{.ID}}' | grep ':9090' | awk '{print $NF}' | xargs -r docker rm || true"
                         sh 'docker-compose rm -f back || true'
 
                         // Start the db-app and back services
