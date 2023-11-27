@@ -65,17 +65,19 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    // Stop the current db-app service if it's running
-                    sh 'docker stop db-app'
-                    // Remove the current db-app service container without removing the volume
-                    sh 'docker rm -f db-app'
+                    // Navigate to the dynamic workspace directory
+                    dir("${WORKSPACE_DIR}") {
+                        // Stop the current db-app service if it's running
+                        sh 'docker-compose stop db-app || true'
+                        // Remove the current db-app service container without removing the volume
+                        sh 'docker-compose rm -f db-app || true'
 
-                    // Start the db-app and back services
-                    sh 'docker-compose up -d'
+                        // Start the db-app and back services
+                        sh 'docker-compose up -d'
+                    }
                 }
             }
         }
-    }
 
     post {
         success {
