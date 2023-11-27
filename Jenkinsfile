@@ -20,14 +20,19 @@ pipeline {
             }
         }
 
+        stage('Confirm Deployment') {
+            steps {
+                script {
+                    input message: 'Deploy to production?', ok: 'Deploy'
+                }
+            }
+        }
+
         stage('Run docker compose') {
             steps {
                 dir("${WORKSPACE_DIR}") {
-                    script {
-                        input message: 'Deploy to production?', ok: 'Deploy'
-                        sh 'docker-compose down -v --remove-orphans'
-                        sh 'docker-compose up -d'
-                    }
+                    sh 'docker-compose down -v --remove-orphans'
+                    sh 'docker-compose up -d'
                 }
             }
         }

@@ -30,7 +30,7 @@ COPY --from=build /app/target/project.war app.war
 
 # The 'EXPOSE' instruction informs Docker that the container listens on the specified network ports at runtime.
 # Here, we are exposing port 8081.
-EXPOSE 8081
+EXPOSE 9090
 
 # The 'CMD' instruction provides defaults for an executing container.
 # Here, we are setting the default command to run our application when the container starts.
