@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Prepare Workspace') {
             steps {
-                // The sh step executes a shell command.
+                cleanWs()
                 sh 'mkdir -p ${WORKSPACE_DIR}'
             }
         }
