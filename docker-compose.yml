@@ -1,29 +1,29 @@
-version: '3'
-services:
-  db-app:
-    image: mysql:8.0
-    ports:
-      - "3306:3306"
-    environment:
-      MYSQL_DATABASE: PetitionAppDB
-      MYSQL_ROOT_PASSWORD: secret
-      MYSQL_USER: app
-      MYSQL_PASSWORD: root
-    volumes:
-      - ./db:/docker-entrypoint-initdb.d
-
-  back:
-    restart : always
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-        - "8081:8080"
-    depends_on:
-        - db-app
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://db-app:3306/PetitionAppDB?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
-      SPRING_DATASOURCE_USERNAME: app
-      SPRING_DATASOURCE_PASSWORD: root
-    volumes:
-      - .:/app
+#version: '3'
+#services:
+#  db-app:
+#    image: mysql:8.0
+#    ports:
+#      - "3306:3306"
+#    environment:
+#      MYSQL_DATABASE: PetitionAppDB
+#      MYSQL_ROOT_PASSWORD: secret
+#      MYSQL_USER: app
+#      MYSQL_PASSWORD: root
+#    volumes:
+#      - ./db:/docker-entrypoint-initdb.d
+#
+#  back:
+#    restart : always
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    ports:
+#        - "8081:8080"
+#    depends_on:
+#        - db-app
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:mysql://db-app:3306/PetitionAppDB?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+#      SPRING_DATASOURCE_USERNAME: app
+#      SPRING_DATASOURCE_PASSWORD: root
+#    volumes:
+#      - .:/app
