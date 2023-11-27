@@ -89,6 +89,8 @@ pipeline {
             steps {
                 dir("${WORKSPACE_DIR}") {
                     script {
+                        sh "pwd"
+                        sh "ls -al"
                         sh "docker build -t ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ."
                         sh "docker run -d --name ${DOCKER_IMAGE_NAME} --network youu-app-network \
                         -p 9090:8080 ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
