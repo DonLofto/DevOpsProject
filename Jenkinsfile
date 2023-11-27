@@ -79,6 +79,16 @@ pipeline {
                     -v \$(pwd)/db:/docker-entrypoint-initdb.d \
                     ${MYSQL_IMAGE}
                     """
+
+                   // Wait for MySQL to be ready
+                   echo "Waiting for MySQL to be ready..."
+                   sh """
+                   for i in {1..30}; do
+                       docker exec ${MYSQL_CONTAINER_NAME} mysqladmin ping -h localhost --silent && break
+                       echo "Waiting for MySQL to start..."
+                       sleep 2
+                   done
+                   """
                 }
             }
         }
