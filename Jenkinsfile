@@ -61,6 +61,8 @@ pipeline {
 
                         sh 'docker-compose rm -f back || true'
 
+                        // Start the db-app and back services
+                        sh 'docker-compose up -d'
                     }
                 }
             }
