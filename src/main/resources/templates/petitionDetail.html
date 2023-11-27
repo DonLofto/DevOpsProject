@@ -15,7 +15,7 @@
         </div>
         <div class="card sign-card">
             <h3>Sign this Petition</h3>
-            <form th:action="@{/petition/{id}/sign(id=${petition.id})}" method="post">
+            <form th:action="@{/app/petition/{id}/sign(id=${petition.id})}" method="post">
                 <label>Name: <input type="text" name="name" required></label>
                 <label>Email: <input type="email" name="email" required></label>
                 <input type="submit" value="Sign">

@@ -13,7 +13,7 @@
             	<h2 class="petitions-title">Search Results</h2>
                 <th:block th:each="petition : ${searchPetitions}">
                     <div class="card petition-card">
-                        <h3><a th:href="@{/petition/{id}(id=${petition.id})}" th:text="${petition.title}" class="custom-link"></a></h3>
+                        <h3><a th:href="@{/app/petition/{id}(id=${petition.id})}" th:text="${petition.title}" class="custom-link"></a></h3>
                         <p th:text="${petition.description}"></p>
                     </div>
                 </th:block>
