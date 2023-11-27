@@ -66,11 +66,9 @@ pipeline {
             steps {
                 script {
                     // Stop the current db-app service if it's running
-                    sh 'docker-compose stop db-app'
+                    sh 'docker stop db-app'
                     // Remove the current db-app service container without removing the volume
-                    sh 'docker-compose rm -f db-app'
-                    // Bring up the new db-app service, which will reuse the existing db-data volume
-                    sh 'docker-compose up -d db-app'
+                    sh 'docker rm -f db-app'
 
                     // Start the db-app and back services
                     sh 'docker-compose up -d'
