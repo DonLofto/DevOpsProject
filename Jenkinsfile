@@ -106,10 +106,8 @@ pipeline {
        success {
            echo 'Deployment successful!'
             archiveArtifacts allowEmptyArchive: true, artifacts: "${WORKSPACE_DIR}/target/*.war"
+            sh "rm -rf ${WORKSPACE_DIR}"
        }
-       always {
-           // Clean up the workspace without affecting the running application
-           sh "rm -rf ${WORKSPACE_DIR}"
-       }
+
    }
 }
