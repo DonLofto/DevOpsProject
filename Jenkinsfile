@@ -51,19 +51,7 @@ pipeline {
         // The success condition runs if the pipeline completed successfully.
         success {
             echo 'Deployment successful!'
-            // The emailext step sends an email depending on the status of the pipeline.
-            emailext(
-                subject: 'Jenkins Notification - Deployment Successful',
-                body: 'Deployment of your application was successful.',
-                to: "${EMAIL_RECIPIENT}"
-            )
-            script {
-                sh 'docker image prune -f'
-            }
+            // Removed the emailext step that sends an email notification
         }
-        // The always condition runs regardless of the completion status of the pipeline.
-        always {
-            sh "rm -rf ${WORKSPACE_DIR}"
-        }
+        // Note: The always block has already been removed as per previous instruction
     }
-}
