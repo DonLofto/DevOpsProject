@@ -15,7 +15,7 @@
                 <div class="card petition-card">
                     <span th:text="${iterStat.count} + '. '"></span>
                     <h3>
-                        <a th:href="@{/petition/{id}(id=${petition.id})}" th:text="${petition.title}" class="custom-link"></a>
+                        <a th:href="@{/app/petition/{id}(id=${petition.id})}" th:text="${petition.title}" class="custom-link"></a>
                     </h3>
                     <p th:text="${petition.description}"></p>
                 </div>

@@ -96,7 +96,7 @@ public class PetitionController {
     public String viewPetitionDetail(@PathVariable Long id, Model model) {
         Optional<Petition> petitionOptional = petitionService.getPetitionById(id);
         petitionOptional.ifPresent(petition -> model.addAttribute("petition", petition));
-        return petitionOptional.isPresent() ? "petitionDetail" : "redirect:/viewAll";
+        return petitionOptional.isPresent() ? "petitionDetail" : "redirect:/app/viewAll";
     }
 
     /**
@@ -118,9 +118,9 @@ public class PetitionController {
             signature.addPetition(petition);
             petition.addSignature(signature);
             petitionService.savePetition(petition);
-            return "redirect:/petition" + id;
+            return "redirect:/app/petition/" + id;
         } else {
-            return "redirect:/viewAll";
+            return "redirect:/app/viewAll";
         }
     }
 
