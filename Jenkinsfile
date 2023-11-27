@@ -32,9 +32,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                dir("${WORKSPACE_DIR}") {
-                    sh 'git clone --branch AppTest --single-branch https://github.com/DonLofto/DevOpsProject.git .'
-                }
+                sh 'git clone https://github.com/DonLofto/DevOpsProject.git ${WORKSPACE_DIR}'
             }
         }
 
